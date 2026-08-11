@@ -58,24 +58,69 @@ jobs:
           docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USERNAME }}/battu-client --all-tags
 
-  # Job 3: Deploy lên Server thực tế
-  # deploy:
-  #   needs: build-docker
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Deploy to VPS via SSH
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.SERVER_IP }}
-  #         username: ${{ secrets.SERVER_USER }}
-  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #         script: |
-  #           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-  #           docker pull ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
-  #           docker stop battu-client || true
-  #           docker rm battu-client || true
-  #           docker run -d \
-  #             --name battu-client \
-  #             -p 80:80 \
-  #             --restart unless-stopped \
-  #             ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+  # Job 3: Deploy lên Server thực tế (Zero-Downtime Blue-Green Deployment)
+  deploy:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+
+            # 1. Xác định slot đang chạy (blue hay green) để quyết định target deploy
+            if docker ps --format '{{.Names}}' | grep -q "battu-client-blue"; then
+              TARGET_COLOR="green"
+              TARGET_PORT="8082"
+              OLD_COLOR="blue"
+              OLD_PORT="8081"
+            else
+              TARGET_COLOR="blue"
+              TARGET_PORT="8081"
+              OLD_COLOR="green"
+              OLD_PORT="8082"
+            fi
+
+            echo "Deploying to slot: $TARGET_COLOR on port: $TARGET_PORT"
+
+            # 2. Khởi động container mới ở port rảnh
+            docker run -d \
+              --name battu-client-$TARGET_COLOR \
+              -p $TARGET_PORT:80 \
+              --restart unless-stopped \
+              ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+
+            # 3. Healthcheck: Đợi container mới khởi động hoàn tất
+            echo "Waiting for new container to start..."
+            SUCCESS=0
+            for i in {1..15}; do
+              if curl -s http://localhost:$TARGET_PORT > /dev/null; then
+                echo "New container is healthy!"
+                SUCCESS=1
+                break
+              fi
+              sleep 2
+            done
+
+            if [ $SUCCESS -ne 1 ]; then
+              echo "Error: New container failed to start. Aborting deployment."
+              docker stop battu-client-$TARGET_COLOR
+              docker rm battu-client-$TARGET_COLOR
+              exit 1
+            fi
+
+            # 4. Thay đổi upstream của Nginx trên VPS và reload Nginx (Độ trễ reload = 0s)
+            # Đường dẫn config dưới đây mặc định là /etc/nginx/sites-available/default, hãy thay đổi nếu VPS dùng file khác
+            sudo sed -i "s/127.0.0.1:$OLD_PORT/127.0.0.1:$TARGET_PORT/g" /etc/nginx/sites-available/default || true
+            sudo nginx -s reload || true
+
+            # 5. Dọn dẹp container cũ
+            docker stop battu-client-$OLD_COLOR || true
+            docker rm battu-client-$OLD_COLOR || true
+
+            echo "Deployment finished successfully with zero downtime!"
