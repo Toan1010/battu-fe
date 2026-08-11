@@ -1,0 +1,81 @@
+name: CI/CD Pipeline workflows
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  # Job 1: Build & Test ứng dụng React/Node.js
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Tự động cache dependencies để tăng tốc độ build
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+  # Job 2: Build Docker Image (Kiểm tra Dockerfile có build thành công hay không)
+  build-docker:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image (Local Check)
+        run: |
+          docker build -t battu-client:latest .
+
+      # =========================================================================
+      # DƯỚI ĐÂY LÀ CÁC BƯỚC ĐẨY ĐỒNG THỜI PUSH LÊN DOCKER HUB VÀ DEPLOY SANG VPS
+      # (Mặc định được comment lại để bạn có thể test chạy thử GitHub Actions thành công ngay mà không cần cấu hình Secrets trước)
+      # =========================================================================
+
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # - name: Push Docker image
+      #   run: |
+      #     docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+      #     docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:${{ github.sha }}
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/battu-client --all-tags
+
+  # Job 3: Deploy lên Server thực tế
+  # deploy:
+  #   needs: build-docker
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy to VPS via SSH
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.SERVER_IP }}
+  #         username: ${{ secrets.SERVER_USER }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         script: |
+  #           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+  #           docker pull ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+  #           docker stop battu-client || true
+  #           docker rm battu-client || true
+  #           docker run -d \
+  #             --name battu-client \
+  #             -p 80:80 \
+  #             --restart unless-stopped \
+  #             ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
