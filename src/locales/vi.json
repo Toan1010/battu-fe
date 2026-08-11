@@ -1,0 +1,84 @@
+{
+  "header": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "skills": "Kỹ năng",
+    "projects": "Dự án",
+    "contact": "Liên hệ",
+    "hireMe": "Thuê tôi"
+  },
+  "hero": {
+    "ready": "Sẵn sàng cho dự án mới",
+    "greeting": "Xin chào, tôi là",
+    "name": "Nguyễn Văn A",
+    "role": "Full-Stack Software Engineer",
+    "description": "Tôi là một kỹ sư phần mềm chuyên phát triển các ứng dụng web chất lượng cao, tối ưu hiệu năng và mang lại trải nghiệm người dùng tuyệt vời.",
+    "viewProjects": "Xem các dự án",
+    "contactNow": "Liên hệ ngay",
+    "statsYears": "Năm kinh nghiệm",
+    "statsProjects": "Dự án hoàn thành",
+    "statsClients": "Khách hàng quốc tế",
+    "webDev": "Lập trình viên Web"
+  },
+  "about": {
+    "title": "Về Bản Thân",
+    "subtitle": "Đam mê sáng tạo những giải pháp công nghệ hiệu quả và mang tính thẩm mỹ cao.",
+    "narrativeTitle": "Hành trình & Triết lý lập trình",
+    "narrativeP1": "Tôi bắt đầu hành trình lập trình từ 3 năm trước. Kể từ đó, tôi luôn không ngừng học hỏi và thử thách bản thân với các công nghệ mới nhằm giải quyết các vấn đề thực tiễn của doanh nghiệp.",
+    "narrativeP2": "Đối với tôi, lập trình không chỉ là viết mã lệnh chạy được, mà là xây dựng các kiến trúc phần mềm sạch sẽ (Clean Architecture), dễ mở rộng và mang lại giá trị trải nghiệm thực sự cho người dùng cuối.",
+    "valueQualityTitle": "Chất lượng là trên hết",
+    "valueQualityDesc": "Viết mã nguồn có cấu trúc rõ ràng, dễ bảo trì.",
+    "valuePerformanceTitle": "Tối ưu hiệu năng",
+    "valuePerformanceDesc": "Đảm bảo trang web tải nhanh và mượt mà trên mọi thiết bị.",
+    "highlightFrontendTitle": "Front-End",
+    "highlightFrontendDesc": "Xây dựng UI tương tác cao, thiết kế đáp ứng (Responsive Design).",
+    "highlightBackendTitle": "Back-End",
+    "highlightBackendDesc": "Xây dựng API bảo mật, xử lý logic nghiệp vụ phức tạp.",
+    "highlightDatabaseTitle": "Cơ sở dữ liệu",
+    "highlightDatabaseDesc": "Tối ưu hóa các truy vấn SQL/NoSQL, tổ chức cấu trúc dữ liệu.",
+    "highlightSystemTitle": "Hệ thống",
+    "highlightSystemDesc": "Docker hóa ứng dụng, tự động hóa quy trình CI/CD cơ bản."
+  },
+  "skills": {
+    "title": "Kỹ Năng Kỹ Thuật",
+    "subtitle": "Bộ công nghệ tôi thường xuyên sử dụng để biến ý tưởng thành hiện thực."
+  },
+  "projects": {
+    "title": "Dự Án Nổi Bật",
+    "subtitle": "Các sản phẩm tiêu biểu tôi đã thiết kế và xây dựng thời gian gần đây.",
+    "all": "Tất cả",
+    "demo": "Xem Demo",
+    "source": "Mã nguồn",
+    "categories": {
+      "all": "Tất cả",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "fullstack": "Fullstack"
+    },
+    "items": {
+      "project_1_title": "E-Commerce Platform",
+      "project_1_desc": "Nền tảng mua sắm trực tuyến thời gian thực với thanh toán Stripe, quản lý giỏ hàng và dashboard admin chi tiết.",
+      "project_2_title": "Task Management App",
+      "project_2_desc": "Ứng dụng quản lý công việc kéo thả Kanban trực quan, hỗ trợ cộng tác nhóm và biểu đồ tiến độ.",
+      "project_3_title": "AI Chatbot Integration API",
+      "project_3_desc": "Hệ thống API backend tích hợp LLMs để phân tích cảm sentiment và phản hồi tự động cho các doanh nghiệp SaaS.",
+      "project_4_title": "Fintech Mobile Dashboard",
+      "project_4_desc": "Giao diện ứng dụng tài chính cá nhân với biểu đồ trực quan hóa dữ liệu chi tiêu và quản lý tài sản."
+    }
+  },
+  "contact": {
+    "title": "Liên Hệ",
+    "subtitle": "Bạn có ý tưởng dự án hoặc cơ hội hợp tác? Hãy gửi lời nhắn ngay!",
+    "infoTitle": "Thông tin liên lạc",
+    "infoDesc": "Hãy thoải mái liên hệ qua email hoặc các mạng xã hội. Tôi sẽ phản hồi nhanh nhất có thể (thường trong vòng 24 giờ).",
+    "formName": "Tên của bạn",
+    "formEmail": "Địa chỉ Email",
+    "formMessage": "Lời nhắn",
+    "placeholderName": "Nguyễn Văn A",
+    "placeholderEmail": "email@domain.com",
+    "placeholderMessage": "Xin chào, tôi muốn thảo luận về dự án...",
+    "submit": "Gửi tin nhắn",
+    "successTitle": "Đã gửi tin nhắn thành công!",
+    "successDesc": "Cảm ơn bạn đã liên hệ. Tôi đã nhận được lời nhắn và sẽ trả lời sớm nhất có thể."
+  }
+}
