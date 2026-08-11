@@ -46,17 +46,17 @@ jobs:
       # (Mặc định được comment lại để bạn có thể test chạy thử GitHub Actions thành công ngay mà không cần cấu hình Secrets trước)
       # =========================================================================
 
-      # - name: Log in to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # - name: Push Docker image
-      #   run: |
-      #     docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
-      #     docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:${{ github.sha }}
-      #     docker push ${{ secrets.DOCKER_USERNAME }}/battu-client --all-tags
+      - name: Push Docker image
+        run: |
+          docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:latest
+          docker tag battu-client:latest ${{ secrets.DOCKER_USERNAME }}/battu-client:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/battu-client --all-tags
 
   # Job 3: Deploy lên Server thực tế
   # deploy:
