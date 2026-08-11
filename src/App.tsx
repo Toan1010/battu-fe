@@ -1,5 +1,6 @@
-import Portfolio from './pages/Portfolio'
+import { RouterProvider } from '@tanstack/react-router'
+import { router } from './app/router'
 
 export default function App() {
-  return <Portfolio />
+  return <RouterProvider router={router} />
 }
