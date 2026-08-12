@@ -40,25 +40,25 @@ export default function Contact() {
 
             <div className="space-y-4">
               <ContactInfoItem
-                href="mailto:contact@example.com"
+                href="mailto:nguyenductoan538@gmail.com"
                 icon={<Mail className="w-5 h-5" />}
                 title="Email"
-                detail="contact@example.com"
+                detail="nguyenductoan538@gmail.com"
               />
 
               <div className="flex gap-4">
                 <ContactInfoItem
-                  href="#"
+                  href="https://github.com/Toan1010"
                   icon={<GithubIcon className="w-5 h-5" />}
                   title="GitHub"
-                  detail="@username"
+                  detail="@Toan1010"
                   isSmall
                 />
                 <ContactInfoItem
-                  href="#"
+                  href="https://www.linkedin.com/in/đức-toàn-nguyễn-412219294/"
                   icon={<LinkedinIcon className="w-5 h-5" />}
                   title="LinkedIn"
-                  detail="@username"
+                  detail="Đức Toàn Nguyễn"
                   isSmall
                 />
               </div>

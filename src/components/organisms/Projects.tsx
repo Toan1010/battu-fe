@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProjectCard from '../molecules/ProjectCard'
 import { Project } from '../../interfaces/project'
+import { FolderGit2 } from 'lucide-react'
 
 export default function Projects() {
   const { t } = useTranslation()
@@ -56,35 +57,58 @@ export default function Projects() {
     : projectsData.filter(p => p.category === activeTab)
 
   return (
-    <section id="projects" className="py-24 px-6 border-t border-slate-200 dark:border-slate-900 bg-slate-100/50 dark:bg-[#090d16]/50">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" className="py-24 px-6 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-50/50 dark:bg-[#070b12]/50 relative overflow-hidden">
+      {/* Decorative radial glows */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-[350px] h-[350px] bg-violet-500/5 dark:bg-violet-500/10 rounded-full blur-[90px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">{t('projects.title')}</h2>
-          <div className="h-1 w-20 bg-indigo-500 mx-auto rounded-full" />
-          <p className="text-slate-600 dark:text-slate-400">{t('projects.subtitle')}</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+            <FolderGit2 className="w-3.5 h-3.5" />
+            <span>{t('header.projects')}</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            {t('projects.title')}
+          </h2>
+          <div className="h-1.5 w-16 bg-gradient-to-r from-indigo-500 to-violet-500 mx-auto rounded-full" />
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+            {t('projects.subtitle')}
+          </p>
         </div>
 
         {/* Filtering Tabs */}
-        <div className="flex justify-center gap-3 mb-12 flex-wrap">
+        <div className="flex justify-center gap-2 mb-16 flex-wrap">
           {['All', 'Frontend', 'Backend', 'Fullstack'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 rounded-xl text-sm font-semibold border transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-300 cursor-pointer ${
                 activeTab === tab
-                  ? 'bg-gradient-to-tr from-indigo-500 to-violet-500 text-white border-transparent shadow-lg shadow-indigo-500/20'
-                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10'
+                  ? 'bg-gradient-to-tr from-indigo-500 to-violet-500 text-white border-transparent shadow-lg shadow-indigo-500/25 scale-[1.02]'
+                  : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800/80 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10'
               }`}
             >
-              {tab === 'All' ? t('projects.all') : tab}
+              {tab === 'All' 
+                ? t('projects.categories.all', t('projects.all')) 
+                : t(`projects.categories.${tab.toLowerCase()}`, tab)}
             </button>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {filteredProjects.map(project => (
-            <ProjectCard key={project.id} project={project} />
+        {/* Projects Grid with Staggered Fade-in-up Entry */}
+        <div 
+          key={activeTab} // Force re-render of grid to restart the entrance animations when tab changes
+          className="grid md:grid-cols-2 gap-8"
+        >
+          {filteredProjects.map((project, index) => (
+            <div
+              key={project.id}
+              className="animate-fade-in-up opacity-0"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <ProjectCard project={project} />
+            </div>
           ))}
         </div>
       </div>

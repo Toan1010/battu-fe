@@ -31,7 +31,8 @@ export default function Hero() {
 
           <div className="flex flex-wrap gap-4 pt-4">
             <a 
-              href="#projects" 
+              href="/MyCV.pdf" 
+              download="Nguyen_Duc_Toan_CV.pdf"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-[1.02] transition-all duration-300 flex items-center gap-2"
             >
               {t('hero.viewProjects')} <ArrowUpRight className="w-5 h-5" />
@@ -72,8 +73,8 @@ export default function Hero() {
                 <p className="text-pink-400">import <span className="text-slate-300">{"{"} React {"}"}</span> from <span className="text-green-400">'react'</span></p>
                 <p className="text-blue-400">const <span className="text-yellow-400">Developer</span> = () =&gt; {"{"}</p>
                 <div className="pl-4 space-y-1.5 border-l border-slate-800">
-                  <p className="text-slate-400">name: <span className="text-green-400">'Nguyen Van A'</span>,</p>
-                  <p className="text-slate-400">role: <span className="text-green-400">'Full Stack Developer'</span>,</p>
+                  <p className="text-slate-400">name: <span className="text-green-400">'Nguyen Duc Toan'</span>,</p>
+                  <p className="text-slate-400">role: <span className="text-green-400">'Frontend Developer'</span>,</p>
                   <p className="text-slate-400">skills: [</p>
                   <p className="text-green-400 pl-4">'React', 'Node.js', 'Vite',</p>
                   <p className="text-green-400 pl-4">'TailwindCSS', 'TypeScript'</p>

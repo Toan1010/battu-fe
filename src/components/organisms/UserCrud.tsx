@@ -11,8 +11,11 @@ const DEFAULT_USERS: User[] = [
 
 export default function UserCrud() {
   const [users, setUsers] = useState<User[]>(() => {
-    const saved = localStorage.getItem('crud_users')
-    return saved ? JSON.parse(saved) : DEFAULT_USERS
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('crud_users')
+      return saved ? JSON.parse(saved) : DEFAULT_USERS
+    }
+    return DEFAULT_USERS
   })
 
   const [formData, setFormData] = useState({ name: '', email: '', role: '' })

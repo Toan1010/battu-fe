@@ -9,7 +9,7 @@ export default function Footer() {
           <span className="font-extrabold tracking-tight text-slate-800 dark:text-slate-200">Portfolio</span>
         </div>
         <p className="text-sm text-slate-500 dark:text-slate-500 font-medium">
-          &copy; {new Date().getFullYear()} Nguyễn Văn A. All rights reserved.
+          &copy; {new Date().getFullYear()} Nguyễn Đức Toàn. All rights reserved.
         </p>
       </div>
     </footer>

@@ -16,7 +16,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('lng') || 'vi',
+    lng: (typeof window !== 'undefined' ? localStorage.getItem('lng') : null) || 'vi',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
